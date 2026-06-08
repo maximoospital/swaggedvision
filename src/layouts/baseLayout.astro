@@ -1,0 +1,26 @@
+---
+import Loader from '../components/Loader.astro';
+import '../assets/style.css';
+const { title } = Astro.props;
+
+// Me gustaria animar el favicon y el titulo de la pagina, ya veremos. 
+// Ademas sumarle alguno de @astrojs/sitemap, astro-seo-meta, astro-seo-schema, astro-gtm, astro-webmanifest, astropub/md, PlayForm/Inline, @unpic/astro, astro-font ,astro-capo, astro-pagefind, astro-embed, PlayForm/Compress astro-seo, astro sonda, Astro Partytown, astrojs-service-worker, astro-swiper, astro-lightgallery, astro-imagetools
+
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{title} | SWVS</title>
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+      <Loader />
+    <main>
+        <slot />
+    </main>
+  </body>
+</html>

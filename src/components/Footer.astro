@@ -1,0 +1,19 @@
+---
+const { sitename, tagline } = Astro.props;
+// Footer marquee para scrollear nombre y tagline
+// Idealmente, el tagline seria randomizado de una lista de frases al visitar, y toda esta info sera alimentada de .md files.
+---
+
+<div class="footer-bar"></div>
+
+<!-- Footer Content -->
+<footer class="footer-content marquee-wrapper">
+    <div class="marquee-content">
+        {sitename} | {tagline} | {sitename} | {tagline} | {sitename} | {tagline} |
+        {sitename} | {tagline} |&nbsp;
+    </div>
+    <div class="marquee-content">
+        {sitename} | {tagline} | {sitename} | {tagline} | {sitename} | {tagline} |
+        {sitename} | {tagline} |&nbsp;
+    </div>
+</footer>

@@ -1,17 +1,273 @@
 ---
-
+import BaseLayout from '../layouts/baseLayout.astro';
+import Footer from '../components/Footer.astro';
 ---
+<BaseLayout title="Inicio">
+	<input type="radio" name="view" id="state-home" checked style="display: none;">
+    <input type="radio" name="view" id="state-shows" style="display: none;">
+    <input type="radio" name="view" id="state-ropa" style="display: none;">
+    <input type="radio" name="view" id="state-musica" style="display: none;">
+    <input type="radio" name="view" id="state-about" style="display: none;">
+    <input type="radio" name="view" id="state-fechas" style="display: none;">
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+
+    <div class="container">
+        <!-- Main Grid: Visual (Left) + Control (Right) -->
+        <div class="main-grid">
+
+            <!-- LEFT COLUMN -->
+            <div class="left-col">
+                <!-- Anchor Ticks (Aligned with Right Column Sections) -->
+                <div class="ticks-container">
+                    <div class="tick"></div>
+                    <div class="tick"></div>
+                    <div class="tick"></div>
+                </div>
+
+                <!-- CONTENT AREAS -->
+
+                <!-- 1. HOME / VISUAL (Default) -->
+                <div class="content-panel panel-home">
+                    <div class="main-image-box">
+                        <img id="showcase-img" src="hero_festival.png" class="placeholder-img" alt="Showcase Image">
+                    </div>
+                </div>
+
+                <!-- 2. SHOWS PANEL -->
+                <div class="content-panel panel-shows">
+                    <div class="panel-header">
+                        <span class="panel-id">SV_026</span>
+                        <h2>FESTIVALS & SHOWS</h2>
+                    </div>
+                    <div class="shows-container">
+                        <div class="show-item">
+                            <div class="show-meta">
+                                <span class="show-date">25 MAY 2026</span>
+                                <span class="show-venue">UNIT DAIKANYAMA, TOKYO</span>
+                            </div>
+                            <div class="show-title">SWAGGEDVISION TOKYO</div>
+                            <a href="https://tickets.swaggedvision.com" target="_blank" class="show-btn">GET TICKETS</a>
+                        </div>
+                        <div class="show-item">
+                            <div class="show-meta">
+                                <span class="show-date">12 JUL 2026</span>
+                                <span class="show-venue">TRESOR OUTDOOR, BERLIN</span>
+                            </div>
+                            <div class="show-title">SWAGGEDVISION BERLIN</div>
+                            <a href="https://tickets.swaggedvision.com" target="_blank" class="show-btn">GET TICKETS</a>
+                        </div>
+                        <div class="show-item">
+                            <div class="show-meta">
+                                <span class="show-date">05 SEP 2026</span>
+                                <span class="show-venue">NEUMOS, SEATTLE</span>
+                            </div>
+                            <div class="show-title">SWAGGEDVISION SEATTLE</div>
+                            <a href="https://tickets.swaggedvision.com" target="_blank" class="show-btn">GET TICKETS</a>
+                        </div>
+                        <div class="show-item past">
+                            <div class="show-meta">
+                                <span class="show-date">14 FEB 2026</span>
+                                <span class="show-venue">CAKESHOP, SEOUL</span>
+                            </div>
+                            <div class="show-title">SWAGGEDVISION SEOUL</div>
+                            <span class="show-btn sold-out">SOLD OUT</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. ROPA / SHOP CATALOG PANEL -->
+                <div class="content-panel panel-ropa">
+                    <div class="panel-header">
+                        <span class="panel-id">SWVS_FIT</span>
+                        <h2>SWVS CLOTHING</h2>
+                    </div>
+                    <div class="clothing-grid">
+                        <div class="clothing-card">
+                            <div class="clothing-img-wrapper">
+                                <img src="clothing_hoodie.png" alt="SWVS Logo Hoodie">
+                            </div>
+                            <div class="clothing-info">
+                                <span class="item-name">SWVS LOGO HOODIE</span>
+                                <span class="item-price">$75.00</span>
+                            </div>
+                            <a href="https://swvs.bandcamp.com" target="_blank" class="shop-btn">BUY ON STORE</a>
+                        </div>
+                        <div class="clothing-card">
+                            <div class="clothing-img-wrapper">
+                                <img src="clothing_shirt.png" alt="SWAGGEDVISION Tee">
+                            </div>
+                            <div class="clothing-info">
+                                <span class="item-name">SWAGGEDVISION TEE</span>
+                                <span class="item-price">$35.00</span>
+                            </div>
+                            <a href="https://swvs.bandcamp.com" target="_blank" class="shop-btn">BUY ON STORE</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. MUSICA / MUSIC PUBLISHING PANEL -->
+                <div class="content-panel panel-musica">
+                    <div class="panel-header">
+                        <span class="panel-id">SWVS_REC</span>
+                        <h2>MUSIC PUBLISHING</h2>
+                    </div>
+                    <div class="music-releases">
+                        <div class="release-item">
+                            <div class="release-art-wrapper">
+                                <img src="album_art.png" class="release-art" alt="SWVS_V1 Album Art">
+                            </div>
+                            <div class="release-details">
+                                <span class="release-title">SWVS_V1 COMPILATION</span>
+                                <p class="release-desc">12 tracks of industrial, garage, and hyper-synth beats compiled by the SWVS label.</p>
+                                <div class="player-links">
+                                    <a href="https://soundcloud.com/swvs-music" target="_blank" class="music-link"><span class="icon">▶</span> SOUNDCLOUD</a>
+                                    <a href="https://youtube.com/swvs-vision" target="_blank" class="music-link"><span class="icon">◉</span> YOUTUBE</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. ABOUT US (Text Heavy) -->
+                <div class="content-panel panel-about">
+                    <div class="panel-header">
+                        <span class="panel-id">SWVS</span>
+                        <h2>SWAGGEDVISION</h2>
+                    </div>
+                    <div class="text-columns">
+                        <p class="intro">
+                            WE ARE A DIGITAL COLLECTIVE FOCUSED ON THE INTERSECTION OF <span
+                                class="highlight">SOUND</span>, <span class="highlight">VISION</span>, AND <span
+                                class="highlight">CODE</span>. OBSESSED WITH THE AESTHETICS OF TECHNOLOGY.
+                        </p>
+                        <div class="separator-line"></div>
+                        <p class="details">
+                            EST 2002. BASE OF OPERATIONS: TOKYO / SEATTLE / BERLIN.<br><br>
+                            OUR MISSION IS TO DECONSTRUCT THE VISUAL LANGUAGE OF THE INTERNET AND REASSEMBLE IT INTO
+                            SOMETHING TANGIBLE. NO COMPROMISE. PURE DATA PIXELS.
+                        </p>
+                        <ul class="capabilities">
+                            <li>> FLASH DEVELOPMENT</li>
+                            <li>> VECTOR ILLUSTRATION</li>
+                            <li>> SOUND SYNTHESIS</li>
+                            <li>> MOTION GRAPHICS</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 6. FECHAS (Crew/Bio data card) -->
+                <div class="content-panel panel-fechas">
+                    <div class="bio-card">
+                        <div class="bio-header">
+                            <span class="bio-name">SWVS DJ & VJ CREW</span>
+                            <span class="bio-role">FECHAS & BOOKINGS</span>
+                        </div>
+                        <div class="bio-stats">
+                            <div class="stat-row">
+                                <span class="stat-label">AUDIO</span>
+                                <div class="stat-bar">
+                                    <div class="fill" style="width: 90%;"></div>
+                                </div>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">VIDEO</span>
+                                <div class="stat-bar">
+                                    <div class="fill" style="width: 85%;"></div>
+                                </div>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">GEAR</span>
+                                <div class="stat-bar">
+                                    <div class="fill" style="width: 95%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bio-data">
+                            <div class="data-row"><span class="key">STATUS:</span> <span class="val">ACTIVE</span></div>
+                            <div class="data-row"><span class="key">LOC:</span> <span class="val">TOKYO / BERLIN</span></div>
+                            <div class="data-row"><span class="key">LAST_UPDATE:</span> <span class="val">23:42:01</span>
+                            </div>
+                        </div>
+                        <div class="bio-quote">
+                            "THE SCREEN IS NOT A FLATTENED SURFACE. IT IS A WINDOW INTO DEEP SPACE."
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="right-col">
+
+                <!-- Module 1: Navigation -->
+                <div class="module module-nav scanlines">
+                    <span class="label-text">CATEGORIA</span>
+                    <ul class="nav-list">
+                        <li><label for="state-shows" class="nav-item">Shows</label></li>
+                        <li><label for="state-ropa" class="nav-item">Ropa</label></li>
+                        <li><label for="state-musica" class="nav-item">Musica</label></li>
+                        <li><label for="state-about" class="nav-item">Sobre SWVS</label></li>
+                        <li><label for="state-fechas" class="nav-item">Fechas</label></li>
+                    </ul>
+                    <div class="massive-text">SWVS</div>
+                </div>
+
+                <!-- Structural Divider -->
+                <div class="divider-bar"></div>
+
+                <!-- Module 2: Photo Grid -->
+                <div class="module module-grid scanlines">
+                    <span class="label-text">Galeria de Shows</span>
+                    <div class="photo-grid">
+                        <div class="grid-item">01</div>
+                        <div class="grid-item">02</div>
+                        <div class="grid-item">03</div>
+                        <div class="grid-item">04</div>
+                        <div class="grid-item">05</div>
+                        <div class="grid-item">06</div>
+                        <div class="grid-item">07</div>
+                        <div class="grid-item">08</div>
+                        <div class="grid-item">09</div>
+                        <div class="grid-item">10</div>
+                        <div class="grid-item">11</div>
+                        <div class="grid-item">12</div>
+                        <div class="grid-item">13</div>
+                        <div class="grid-item">14</div>
+                        <div class="grid-item">15</div>
+                        <div class="grid-item">16</div>
+                        <div class="grid-item">17</div>
+                        <div class="grid-item">18</div>
+                        <div class="grid-item">19</div>
+                        <div class="grid-item">20</div>
+                        <div class="grid-item">21</div>
+                        <div class="grid-item">22</div>
+                        <div class="grid-item">23</div>
+                        <div class="grid-item">24</div>
+                        <div class="grid-item">25</div>
+                        <div class="grid-item">26</div>
+                        <div class="grid-item">27</div>
+                        <div class="grid-item">28</div>
+                    </div>
+                    <div class="massive-text" style="bottom: -10px; right: -5px;">01</div>
+                </div>
+
+                <!-- Structural Divider -->
+                <div class="divider-bar"></div>
+
+                <!-- Module 3: Info -->
+                <div class="module module-info">
+                    <span class="label-text">PROXIMA FECHA</span>
+                    <ul class="info-list">
+                        <li>Swaggedvision 2026</li>
+                        <li>25 de mayo</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer Separator -->
+        <Footer sitename="SWAGGEDVISION" tagline="SE VIENE CARAJO" />
+    </div>
+	<script src="../assets/blink.js"></script>
+</BaseLayout>
