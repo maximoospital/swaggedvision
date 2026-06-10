@@ -129,6 +129,24 @@ a:hover {
     color: var(--accent);
 }
 
+/* Nav progress bar */
+.progress-bar-top {
+    height: 2px;
+    width: 0%;
+    background: var(--accent);
+    opacity: 0;
+    pointer-events: none;
+    transition: width 0.4s ease, opacity 0.3s ease;
+}
+
+.progress-bar-top.nav-loading {
+    opacity: 1;
+}
+
+.progress-bar-top.nav-done {
+    transition: width 0.15s ease, opacity 0.4s ease 0.15s;
+}
+
 /* Layout Structure */
 .container {
     width: 900px;
@@ -1297,5 +1315,13 @@ details.show-item[open] .show-expand-icon::after {
 
     .marquee-wrapper {
         display: none;
+    }
+
+    .progress-bar-top {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 9998;
     }
 }

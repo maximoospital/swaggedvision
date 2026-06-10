@@ -53,8 +53,44 @@ const orgSchema = {
       }
     </script>
     <Loader />
+    <script>
+      (() => {
+        let timer: ReturnType<typeof setTimeout> | null = null;
+
+        function getBar() {
+          return document.querySelector<HTMLElement>('.progress-bar-top');
+        }
+
+        function start() {
+          const bar = getBar();
+          if (!bar) return;
+          if (timer) clearTimeout(timer);
+          bar.classList.remove('nav-done');
+          bar.style.width = '0%';
+          // force reflow so transition fires from 0
+          bar.offsetWidth;
+          bar.classList.add('nav-loading');
+          bar.style.width = '65%';
+        }
+
+        function finish() {
+          const bar = getBar();
+          if (!bar) return;
+          bar.classList.add('nav-done');
+          bar.style.width = '100%';
+          timer = setTimeout(() => {
+            bar.classList.remove('nav-loading', 'nav-done');
+            bar.style.width = '0%';
+          }, 600);
+        }
+
+        document.addEventListener('astro:before-preparation', start);
+        document.addEventListener('astro:page-load', finish);
+      })();
+    </script>
     <main>
       <div class="container">
+        <div class="progress-bar-top"></div>
         <div class="main-grid">
 
           <!-- LEFT COLUMN -->
