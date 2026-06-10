@@ -7,8 +7,7 @@ import pagefind from 'astro-pagefind';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://swaggedvision.com',
-  base: '/swaggedvision/',
+  site: 'https://swvs.mospit.al',
   integrations: [
     pagefind(),
     alpinejs(),

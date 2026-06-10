@@ -1,5 +1,5 @@
 export const SITE = {
-  url: 'https://swaggedvision.com.ar', // update when domain is en vivo
+  url: 'https://swvs.mospit.al', // update when domain is en vivo
   name: 'SWAGGEDVISION',
   shortName: 'SWVS',
   description: 'SWAGGEDVISION — Musica. Fechas. Ropa.',
