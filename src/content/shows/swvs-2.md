@@ -8,7 +8,7 @@ country: Argentina
 ticketUrl: https://alpogo.com/evento/swaggedvision-batacazo-cultural-1-25436
 soldOut: false
 status: terminado
-description: Primera edición con una curaduría que reúne artistas OG (para los nostálgicos de Soundcloud) y nuevos exponentes de la creciente escena trap nacional. Para sorpresa de muchos se estarán presentando el 31/7 en CC BULA para hacernos gozar una fecha histórica a pura data de calidad dedicada exclusivamente para los finos oyentes.
+description: 2da SWAGGEDVISION, edicion BATACAZO CULTURAL. Nuevamente en BULA este 19 de Abril con players de lujo.
 artists:
   - Icy Genesis
   - Promo x Cierre

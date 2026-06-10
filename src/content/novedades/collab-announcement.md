@@ -1,4 +1,4 @@
 ---
-title: COLLAB ANNOUNCEMENT
-subtitle: MUY PRONTO
+title: BIENVENIDOS A SWVS
+subtitle: NUESTRO SITIO OFICIAL.
 ---
