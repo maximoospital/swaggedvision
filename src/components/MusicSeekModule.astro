@@ -78,13 +78,6 @@ const artists = [...new Set(items.map(i => i.data.artist).filter(Boolean))] as s
         filterReleases();
       });
     });
-
-    document.addEventListener('astro:page-load', () => {
-      if (input) input.value = '';
-      activeArtist = 'all';
-      artistBtns.forEach(b => b.classList.toggle('active', b.dataset.artist === 'all'));
-      filterReleases();
-    });
   }
 
   document.addEventListener('astro:page-load', initMusicSeek);

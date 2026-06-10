@@ -12,7 +12,7 @@ export default defineConfig({
     pagefind(),
     alpinejs(),
     sitemap(),
-    Compress(),
+    Compress({ HTML: false }),
   ],
   prefetch: {
     prefetchAll: true,

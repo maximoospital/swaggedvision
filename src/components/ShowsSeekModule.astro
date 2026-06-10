@@ -78,13 +78,6 @@ const venues = [...new Set(items.map(i => i.data.venue).filter(Boolean))] as str
         filterShows();
       });
     });
-
-    document.addEventListener('astro:page-load', () => {
-      if (input) input.value = '';
-      activeVenue = 'all';
-      venueBtns.forEach(b => b.classList.toggle('active', b.dataset.venue === 'all'));
-      filterShows();
-    });
   }
 
   document.addEventListener('astro:page-load', initShowsSeek);

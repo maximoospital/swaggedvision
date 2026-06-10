@@ -78,14 +78,6 @@ const categories = [...new Set(items.map(i => i.data.category).filter(Boolean))]
         filterCards();
       });
     });
-
-    // Re-init on page navigation (Astro view transitions)
-    document.addEventListener('astro:page-load', () => {
-      if (input) input.value = '';
-      activeCategory = 'all';
-      catBtns.forEach(b => b.classList.toggle('active', b.dataset.cat === 'all'));
-      filterCards();
-    });
   }
 
   document.addEventListener('astro:page-load', initSeek);
