@@ -3,7 +3,7 @@ export const SITE = {
   name: 'SWAGGEDVISION',
   shortName: 'SWVS',
   description: 'SWAGGEDVISION — Musica. Fechas. Ropa.',
-  logo: '/swvs.png',
+  logo: '/meta.png',
   themeColor: '#cf2f2f',
   socials: {
     soundcloud: 'https://soundcloud.com/swaggedvision',
