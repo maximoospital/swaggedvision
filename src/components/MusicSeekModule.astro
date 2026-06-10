@@ -10,7 +10,7 @@ const artists = [...new Set(items.map(i => i.data.artist).filter(Boolean))] as s
   <div class="seek-search">
     <input
       type="text"
-      id="seek-input"
+      id="music-seek-input"
       class="seek-input"
       placeholder="TITULO..."
       autocomplete="off"
@@ -24,15 +24,15 @@ const artists = [...new Set(items.map(i => i.data.artist).filter(Boolean))] as s
       <button class="seek-cat" data-artist={artist.toLowerCase()}>{artist.toUpperCase()}</button>
     ))}
   </div>
-  <div id="seek-count" class="seek-count"></div>
+  <div id="music-seek-count" class="seek-count"></div>
   <div class="massive-text" style="bottom: -10px; right: -5px; font-size: 94px;">MUSICA</div>
 </div>
 
 <script>
   function initMusicSeek() {
-    const input = document.getElementById('seek-input') as HTMLInputElement | null;
+    const input = document.getElementById('music-seek-input') as HTMLInputElement | null;
     const artistBtns = document.querySelectorAll<HTMLButtonElement>('.seek-cat[data-artist]');
-    const countEl = document.getElementById('seek-count');
+    const countEl = document.getElementById('music-seek-count');
 
     if (!input) return;
 

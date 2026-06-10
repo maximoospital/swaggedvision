@@ -35,7 +35,7 @@ const hasMultiple = images.length > 1;
     {hasMultiple ? (
       <Swiper
         class="product-swiper"
-        options={{ navigation: true, loop: true }}
+        options={{ navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }, loop: true }}
       >
         <SwiperWrapper>
           {images.map((img, i) => (

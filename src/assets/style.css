@@ -830,6 +830,7 @@ details.show-item[open] .show-expand-icon::after {
 .clothing-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    align-content: start;
     gap: 15px;
     overflow-y: auto;
     flex: 1;
