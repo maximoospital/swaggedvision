@@ -17,6 +17,7 @@
     "@types/alpinejs": "^3.13.11",
     "alpinejs": "^3.15.12",
     "astro": "^6.4.4",
+    "astro-embed": "^0.13.0",
     "astro-lightgallery": "^2.6.0",
     "astro-pagefind": "^2.0.0",
     "astro-seo": "^1.1.0",

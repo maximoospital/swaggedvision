@@ -1,5 +1,6 @@
 ---
 import { LightGallery } from 'astro-lightgallery';
+import { YouTube } from 'astro-embed';
 
 interface Props {
   title: string;
@@ -14,14 +15,28 @@ interface Props {
   description?: string;
   artists?: string[];
   images?: string[];
+  flyer?: string;
+  recap?: string;
 }
-const { title, date, time, venue, city, country, ticketUrl, soldOut, status, description, artists, images } = Astro.props;
+const { title, date, time, venue, city, country, ticketUrl, soldOut, status, description, artists, images, flyer, recap } = Astro.props;
 const resolvedStatus = status ?? (date < new Date() ? 'terminado' : 'proximamente');
 const formattedDate = date
   .toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
   .toUpperCase();
-const hasDetails = description || time || (artists && artists.length > 0) || (images && images.length > 0);
+
+function extractYouTubeId(input: string): string {
+  const watchMatch = input.match(/[?&]v=([^&]+)/);
+  if (watchMatch) return watchMatch[1];
+  const shortMatch = input.match(/youtu\.be\/([^?&]+)/);
+  if (shortMatch) return shortMatch[1];
+  return input;
+}
+
+const youtubeId = recap ? extractYouTubeId(recap) : null;
+const hasDetails = description || time || (artists && artists.length > 0) || (images && images.length > 0) || flyer || recap;
 const galleryId = `show-lg-${Math.random().toString(36).slice(2, 9)}`;
+const flyerGalleryId = `show-flyer-${Math.random().toString(36).slice(2, 9)}`;
+const recapModalId = `show-recap-${Math.random().toString(36).slice(2, 9)}`;
 ---
 <details class:list={['show-item', resolvedStatus]} data-venue={venue.toLowerCase()} data-title={title.toLowerCase()} data-status={resolvedStatus}>
   <summary class="show-summary">
@@ -34,12 +49,14 @@ const galleryId = `show-lg-${Math.random().toString(36).slice(2, 9)}`;
     </div>
     <div style="display:flex; flex-direction: row; justify-content: space-between; align-items: center;">
           {resolvedStatus === 'terminado'
-      ? <span class="show-btn show-status-btn terminado">TERMINADO</span>
+      ? youtubeId
+        ? <div class="show-btn show-recap-btn" data-recap-modal-id={recapModalId} onclick="event.preventDefault()">VER RECAPITULACION</div>
+        : <span class="show-btn show-status-btn terminado">TERMINADO</span>
       : resolvedStatus === 'cancelado'
       ? <span class="show-btn show-status-btn cancelado">CANCELADO</span>
       : soldOut
       ? <span class="show-btn sold-out">AGOTADAS</span>
-      : <a href={ticketUrl} target="_blank" class="show-btn" onclick="event.stopPropagation()">COMPRAR ENTRADAS</a>
+      : <a href={ticketUrl} target="_blank" class="show-btn show-ticket-btn" onclick="event.preventDefault();window.open(this.href,'_blank')">COMPRAR ENTRADAS</a>
     }
           {hasDetails && <span class="show-expand-icon"></span>}
     </div>
@@ -63,6 +80,32 @@ const galleryId = `show-lg-${Math.random().toString(36).slice(2, 9)}`;
           </div>
         )}
       </div>
+      {(flyer || recap) && (
+        <div class="show-action-row">
+          {flyer && (
+            <>
+              <LightGallery id={flyerGalleryId} class="show-gallery-hidden">
+                <a href={flyer}>
+                  <img src={flyer} alt={`${title} flyer`} loading="lazy" />
+                </a>
+              </LightGallery>
+              <div class="grid-item show-flyer-btn" data-flyer-gallery-id={flyerGalleryId}>VER FLYER</div>
+            </>
+          )}
+          {youtubeId && (
+            <div class="grid-item show-recap-btn" data-recap-modal-id={recapModalId}>VER RECAPITULACION</div>
+          )}
+        </div>
+      )}
+      {youtubeId && (
+        <div class="show-recap-modal" id={recapModalId} aria-hidden="true">
+          <div class="show-recap-backdrop"></div>
+          <div class="show-recap-content">
+            <button class="show-recap-close" aria-label="Cerrar">✕</button>
+            <YouTube id={youtubeId} />
+          </div>
+        </div>
+      )}
       {images && images.length > 0 && (
         <>
           <LightGallery id={galleryId} class="show-gallery-hidden">
@@ -88,8 +131,60 @@ const galleryId = `show-lg-${Math.random().toString(36).slice(2, 9)}`;
 <script>
   import { getLightGalleryFromUniqueSelector } from 'astro-lightgallery';
 
+  // Teleport all recap modals to <body> so no ancestor stacking context traps them
+  document.querySelectorAll<HTMLElement>('.show-recap-modal').forEach(modal => {
+    document.body.appendChild(modal);
+  });
+
+  function openRecapModal(modalId: string) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeRecapModal(modal: HTMLElement) {
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
   document.addEventListener('click', async (e) => {
     const target = e.target as HTMLElement;
+
+    const recapBtn = target.closest<HTMLElement>('.show-recap-btn');
+    if (recapBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const modalId = recapBtn.dataset.recapModalId;
+      if (modalId) openRecapModal(modalId);
+      return;
+    }
+
+    const closeBtn = target.closest<HTMLElement>('.show-recap-close');
+    if (closeBtn) {
+      const modal = closeBtn.closest<HTMLElement>('.show-recap-modal');
+      if (modal) closeRecapModal(modal);
+      return;
+    }
+
+    const backdrop = target.closest<HTMLElement>('.show-recap-backdrop');
+    if (backdrop) {
+      const modal = backdrop.closest<HTMLElement>('.show-recap-modal');
+      if (modal) closeRecapModal(modal);
+      return;
+    }
+
+    const flyerBtn = target.closest<HTMLElement>('.show-flyer-btn');
+    if (flyerBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const flyerGalleryId = flyerBtn.dataset.flyerGalleryId;
+      if (!flyerGalleryId) return;
+      const lg = await getLightGalleryFromUniqueSelector(`#${flyerGalleryId}`);
+      lg?.openGallery(0);
+      return;
+    }
+
     const item = target.closest<HTMLElement>('.show-grid-item');
     if (!item) return;
 
@@ -100,10 +195,69 @@ const galleryId = `show-lg-${Math.random().toString(36).slice(2, 9)}`;
     const lg = await getLightGalleryFromUniqueSelector(`#${galleryId}`);
     lg?.openGallery(index);
   });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    document.querySelectorAll<HTMLElement>('.show-recap-modal[aria-hidden="false"]').forEach(closeRecapModal);
+  });
 </script>
 
 <style is:global>
   .show-gallery-hidden {
     display: none !important;
+  }
+
+  .show-recap-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .show-recap-modal[aria-hidden="true"] {
+    display: none;
+  }
+
+  .show-recap-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    cursor: pointer;
+  }
+
+  .show-recap-content {
+    position: relative;
+    z-index: 1;
+    width: min(720px, 92vw);
+    border: 1px solid var(--ui-border);
+    background: #111;
+  }
+
+  .show-recap-close {
+    position: absolute;
+    top: -32px;
+    right: -10px;
+    background: transparent;
+    border: none;
+    color: var(--text-grey);
+    font-size: 14px;
+    /* font-family: monospace; */
+    cursor: pointer;
+    letter-spacing: 1px;
+    padding: 4px 8px;
+  }
+
+  .show-recap-close:hover {
+    color: var(--accent);
+  }
+
+  .show-recap-content lite-youtube,
+  .show-recap-content iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
   }
 </style>

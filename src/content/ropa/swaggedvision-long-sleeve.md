@@ -1,4 +1,5 @@
 ---
+date: 2025-01-01
 name: SWAGGEDVISION LONG SLEEVE
 price: 45.00
 category: SWVS

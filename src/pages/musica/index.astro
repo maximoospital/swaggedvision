@@ -4,7 +4,7 @@ import MusicItem from '../../components/MusicItem.astro';
 import { getCollection } from 'astro:content';
 import { SITE } from '../../config/site';
 
-const releases = await getCollection('musica');
+const releases = (await getCollection('musica')).sort((a, b) => (b.data.year ?? 0) - (a.data.year ?? 0));
 
 const schema = releases.length === 1
   ? {

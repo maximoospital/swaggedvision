@@ -1,4 +1,5 @@
 ---
+date: 2024-11-01
 name: SWAGGEDVISION TEE
 price: 35.00
 category: Agustinsito

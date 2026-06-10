@@ -3,7 +3,11 @@ import BaseLayout from '../../layouts/baseLayout.astro';
 import ShopItem from '../../components/ShopItem.astro';
 import { getCollection } from 'astro:content';
 
-const items = await getCollection('ropa');
+const items = (await getCollection('ropa')).sort((a, b) => {
+  const da = a.data.date?.getTime() ?? 0;
+  const db = b.data.date?.getTime() ?? 0;
+  return db - da;
+});
 
 const schema = {
   '@context': 'https://schema.org',

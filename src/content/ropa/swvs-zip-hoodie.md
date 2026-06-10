@@ -1,4 +1,5 @@
 ---
+date: 2024-07-01
 name: SWVS ZIP HOODIE
 price: 85.00
 category: SWVS

@@ -159,7 +159,7 @@ a:hover {
 .main-grid {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
-    height: 600px;
+    height: 650px;
     overflow: hidden;
 }
 
@@ -257,7 +257,7 @@ a:hover {
     text-align: center;
     padding: 4px 0;
     cursor: pointer;
-    font-family: monospace;
+    /* font-family: monospace; */
 }
 
 .grid-item:hover {
@@ -434,7 +434,7 @@ a:hover {
 .panel-id {
     font-size: 10px;
     color: var(--text-grey);
-    font-family: monospace;
+    /* font-family: monospace; */
 }
 
 .panel-header h2 {
@@ -689,7 +689,7 @@ a:hover {
 }
 
 .show-expand-icon {
-    font-family: monospace;
+    /* font-family: monospace; */
     font-size: 20px;
     font-weight: bold;
     color: var(--accent);
@@ -713,7 +713,7 @@ details.show-item[open] .show-expand-icon::after {
     display: flex;
     justify-content: space-between;
     font-size: 10px;
-    font-family: monospace;
+    /* font-family: monospace; */
     color: var(--text-grey);
 }
 
@@ -732,7 +732,7 @@ details.show-item[open] .show-expand-icon::after {
 .show-btn {
     align-self: flex-start;
     font-size: 10px;
-    font-family: monospace;
+    /* font-family: monospace; */
     color: #000;
     background: var(--accent);
     padding: 4px 8px;
@@ -757,6 +757,20 @@ details.show-item[open] .show-expand-icon::after {
     pointer-events: none;
 }
 
+.show-action-row {
+    display: flex;;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+.show-flyer-btn,
+.show-recap-btn {
+    padding: 4px 10px;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+
 .show-btn.terminado {
     background: #1a1a1a;
     color: #555;
@@ -767,6 +781,18 @@ details.show-item[open] .show-expand-icon::after {
     background: #2a1515;
     color: #a03030;
     border: 1px solid #5c1e1e;
+}
+
+.show-btn.show-recap-btn {
+    background: #1a1a1a;
+    color: var(--text-white);
+    border: 1px solid var(--ui-border);
+}
+
+.show-btn.show-recap-btn:hover {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
 }
 
 .show-item.terminado {
@@ -789,7 +815,7 @@ details.show-item[open] .show-expand-icon::after {
 
 .show-description {
     font-size: 11px;
-    font-family: monospace;
+    /* font-family: monospace; */
     color: var(--text-grey);
     line-height: 1.6;
     margin: 0;
@@ -805,7 +831,7 @@ details.show-item[open] .show-expand-icon::after {
     display: flex;
     gap: 12px;
     font-size: 10px;
-    font-family: monospace;
+    /* font-family: monospace; */
 }
 
 .show-detail-label {
@@ -899,7 +925,7 @@ details.show-item[open] .show-expand-icon::after {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: monospace;
+    /* font-family: monospace; */
 }
 
 .item-name {
@@ -916,7 +942,7 @@ details.show-item[open] .show-expand-icon::after {
 .shop-btn {
     text-align: center;
     font-size: 10px;
-    font-family: monospace;
+    /* font-family: monospace; */
     color: #fff;
     border: 1px solid var(--accent);
     padding: 6px 0;
@@ -999,7 +1025,7 @@ details.show-item[open] .show-expand-icon::after {
 
 .meta-tag {
     font-size: 8px;
-    font-family: monospace;
+    /* font-family: monospace; */
     font-weight: bold;
     letter-spacing: 0.5px;
     color: var(--text-grey);
@@ -1026,7 +1052,7 @@ details.show-item[open] .show-expand-icon::after {
 
 .music-link {
     font-size: 9px;
-    font-family: monospace;
+    /* font-family: monospace; */
     font-weight: bold;
     border: 1px solid #444;
     padding: 4px 8px;
@@ -1108,7 +1134,7 @@ details.show-item[open] .show-expand-icon::after {
     background: transparent;
     border: none;
     outline: none;
-    font-family: monospace;
+    /* font-family: monospace; */
     font-size: 11px;
     font-weight: bold;
     color: var(--text-white);
@@ -1123,7 +1149,7 @@ details.show-item[open] .show-expand-icon::after {
 }
 
 .seek-cursor {
-    font-family: monospace;
+    /* font-family: monospace; */
     font-size: 14px;
     color: var(--accent);
     padding-right: 8px;
@@ -1147,7 +1173,7 @@ details.show-item[open] .show-expand-icon::after {
 }
 
 .seek-cat {
-    font-family: monospace;
+    /* font-family: monospace; */
     font-size: 9px;
     font-weight: bold;
     letter-spacing: 0.5px;
@@ -1172,7 +1198,7 @@ details.show-item[open] .show-expand-icon::after {
 }
 
 .seek-count {
-    font-family: monospace;
+    /* font-family: monospace; */
     font-size: 9px;
     color: var(--text-watermark);
     margin-top: 6px;
@@ -1194,7 +1220,7 @@ details.show-item[open] .show-expand-icon::after {
     position: absolute;
     top: 6px;
     left: 6px;
-    font-family: monospace;
+    /* font-family: monospace; */
     font-size: 8px;
     font-weight: bold;
     letter-spacing: 0.5px;
@@ -1224,7 +1250,7 @@ details.show-item[open] .show-expand-icon::after {
 .shop-btn--disabled {
     text-align: center;
     font-size: 10px;
-    font-family: monospace;
+    /* font-family: monospace; */
     color: #444;
     border: 1px solid #333;
     padding: 6px 0;

@@ -1,4 +1,5 @@
 ---
+date: 2024-05-01
 name: SWVS LOGO HOODIE
 price: 75.00
 category: SWVS

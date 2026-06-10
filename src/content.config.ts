@@ -11,6 +11,7 @@ const ropa = defineCollection({
     status: z.enum(['available', 'no_stock', 'coming_soon', 'ultimas']).default('available'),
     images: z.array(z.string()).min(1),
     url: z.string().url(),
+    date: z.coerce.date().optional(),
   }),
 });
 
@@ -29,6 +30,8 @@ const shows = defineCollection({
     description: z.string().optional(),
     artists: z.array(z.string()).optional(),
     images: z.array(z.string()).optional(),
+    flyer: z.string().optional(),
+    recap: z.string().optional(),
   }),
 });
 
