@@ -1,0 +1,109 @@
+---
+import { LightGallery } from 'astro-lightgallery';
+
+interface Props {
+  title: string;
+  date: Date;
+  time?: string;
+  venue: string;
+  city: string;
+  country: string;
+  ticketUrl?: string;
+  soldOut?: boolean;
+  status?: 'proximamente' | 'cancelado' | 'terminado';
+  description?: string;
+  artists?: string[];
+  images?: string[];
+}
+const { title, date, time, venue, city, country, ticketUrl, soldOut, status, description, artists, images } = Astro.props;
+const resolvedStatus = status ?? (date < new Date() ? 'terminado' : 'proximamente');
+const formattedDate = date
+  .toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+  .toUpperCase();
+const hasDetails = description || time || (artists && artists.length > 0) || (images && images.length > 0);
+const galleryId = `show-lg-${Math.random().toString(36).slice(2, 9)}`;
+---
+<details class:list={['show-item', resolvedStatus]} data-venue={venue.toLowerCase()} data-title={title.toLowerCase()} data-status={resolvedStatus}>
+  <summary class="show-summary">
+    <div class="show-meta">
+      <span class="show-date">{formattedDate}</span>
+      <span class="show-venue">{venue}, {city}</span>
+    </div>
+    <div class="show-title-row">
+      <div class="show-title">{title}</div>
+    </div>
+    <div style="display:flex; flex-direction: row; justify-content: space-between; align-items: center;">
+          {resolvedStatus === 'terminado'
+      ? <span class="show-btn show-status-btn terminado">TERMINADO</span>
+      : resolvedStatus === 'cancelado'
+      ? <span class="show-btn show-status-btn cancelado">CANCELADO</span>
+      : soldOut
+      ? <span class="show-btn sold-out">AGOTADAS</span>
+      : <a href={ticketUrl} target="_blank" class="show-btn" onclick="event.stopPropagation()">COMPRAR ENTRADAS</a>
+    }
+          {hasDetails && <span class="show-expand-icon"></span>}
+    </div>
+  </summary>
+  {hasDetails && (
+    <div class="show-details">
+      {description && <p class="show-description">{description}</p>}
+      <div class="show-details-grid">
+        <div class="show-detail-row">
+          <span class="show-detail-label">FECHA</span>
+          <span class="show-detail-value">{formattedDate}{time && ` · ${time}HS`}</span>
+        </div>
+        <div class="show-detail-row">
+          <span class="show-detail-label">LUGAR</span>
+          <span class="show-detail-value">{venue}, {city}, {country}</span>
+        </div>
+        {artists && artists.length > 0 && (
+          <div class="show-detail-row">
+            <span class="show-detail-label">ARTISTAS</span>
+            <span class="show-detail-value">{artists.join(' · ')}</span>
+          </div>
+        )}
+      </div>
+      {images && images.length > 0 && (
+        <>
+          <LightGallery id={galleryId} class="show-gallery-hidden">
+            {images.map((img, i) => (
+              <a href={img}>
+                <img src={img} alt={`${title} ${i + 1}`} loading="lazy" />
+              </a>
+            ))}
+          </LightGallery>
+          <div class="show-photo-grid">
+            {images.map((img, i) => (
+              <div class="grid-item show-grid-item" data-gallery-id={galleryId} data-index={i}>
+                <img src={img} alt={`${title} ${i + 1}`} loading="lazy" />
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  )}
+</details>
+
+<script>
+  import { getLightGalleryFromUniqueSelector } from 'astro-lightgallery';
+
+  document.addEventListener('click', async (e) => {
+    const target = e.target as HTMLElement;
+    const item = target.closest<HTMLElement>('.show-grid-item');
+    if (!item) return;
+
+    const galleryId = item.dataset.galleryId;
+    const index = parseInt(item.dataset.index ?? '0', 10);
+    if (!galleryId) return;
+
+    const lg = await getLightGalleryFromUniqueSelector(`#${galleryId}`);
+    lg?.openGallery(index);
+  });
+</script>
+
+<style is:global>
+  .show-gallery-hidden {
+    display: none !important;
+  }
+</style>

@@ -1,0 +1,72 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import Loader from '../components/Loader.astro';
+import Footer from '../components/Footer.astro';
+import RightCol from '../components/RightCol.astro';
+import SEO from '../components/SEO.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { SITE } from '../config/site';
+import '../assets/style.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  schema?: object;
+  section?: 'home' | 'musica' | 'ropa' | 'shows';
+}
+
+const { title, description, image, schema, section = 'home' } = Astro.props;
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE.name,
+  url: SITE.url,
+};
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE.name,
+  url: SITE.url,
+  logo: new URL(SITE.logo, SITE.url).href,
+  sameAs: Object.values(SITE.socials),
+};
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <SEO {title} {description} {image} />
+    <JsonLd schema={websiteSchema} />
+    <JsonLd schema={orgSchema} />
+    {schema && <JsonLd {schema} />}
+    <ClientRouter />
+  </head>
+  <body>
+    <script is:inline>
+      if (sessionStorage.getItem('swvs_loader_shown')) {
+        document.documentElement.setAttribute('data-loader-shown', '');
+      }
+    </script>
+    <Loader />
+    <main>
+      <div class="container">
+        <div class="main-grid">
+
+          <!-- LEFT COLUMN -->
+          <div class="left-col">
+            <slot />
+          </div>
+
+          <!-- RIGHT COLUMN -->
+          <RightCol {section} />
+        </div>
+        <Footer sitename="SWAGGEDVISION" />
+      </div>
+    </main>
+  </body>
+</html>

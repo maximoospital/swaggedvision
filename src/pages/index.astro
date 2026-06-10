@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/baseLayout.astro';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'MusicGroup',
+  name: 'SWAGGEDVISION',
+  url: 'https://swaggedvision.com.ar',
+  genre: ['Trap', 'Electronic'],
+};
+---
+<BaseLayout
+  title="SWAGGEDVISION"
+  description="SWVS — Musica. Fechas. Ropa."
+  {schema}
+  section="home"
+>
+  <div class="content-panel panel-home" transition:name="panel">
+        <div class="panel-header">
+      <span class="panel-id">SWVS</span>
+      <h2>SWAGGEDVISION</h2>
+    </div>
+    <div class="text-columns">
+      <p class="intro">
+        TEXTO A RELLENAR ACA TEXTO DE PRUEBA ACA. <span
+          class="highlight">TEXTO ENFASIS</span>. MAS TEXTO.
+      </p>
+      <div class="separator-line"></div>
+      <p class="details">
+        TEXTO DE PRUEBA.<br><br>
+        MAS TEXTO DE PRUEBA TEXTO DE PRUEBA.
+      </p>
+    </div>
+
+  </div>
+</BaseLayout>

@@ -1,0 +1,89 @@
+---
+const path = Astro.url.pathname;
+
+const navLinks = [
+  { href: '/shows', label: 'Shows' },
+  { href: '/ropa', label: 'Ropa' },
+  { href: '/musica', label: 'Musica' },
+];
+---
+
+<div class="module module-nav scanlines">
+  <span class="label-text">NAVEGACION</span>
+  <ul class="nav-list" id="nav-list">
+    {navLinks.map(({ href, label }) => (
+      <li>
+        <a
+          href={href}
+          data-nav-href={href}
+          data-label={label}
+          class:list={["nav-item", { active: path === href }]}
+        >
+          <span class="nav-chevron">&#8250;</span>
+          <span class="nav-label">{label}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <img src="/swvs.png" alt="SWVS" class="massive-text swvs-logo" />
+</div>
+
+<style>
+  .nav-item {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .nav-chevron {
+    display: none;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: 400;
+    margin-top: -2.5px;
+  }
+
+  .nav-item.active .nav-chevron {
+    display: inline;
+  }
+
+  .swvs-logo {
+    height: 8.7rem;
+    opacity: 0.3;
+    width: auto;
+  }
+</style>
+
+<script>
+  let navController: AbortController | null = null;
+
+  function initNav() {
+    if (navController) navController.abort();
+    navController = new AbortController();
+    const { signal } = navController;
+
+    const current = window.location.pathname;
+
+    document.querySelectorAll<HTMLAnchorElement>('[data-nav-href]').forEach((link) => {
+      const labelEl = link.querySelector('.nav-label');
+      if (labelEl) labelEl.textContent = link.dataset.label ?? '';
+      link.href = link.dataset.navHref ?? '/';
+      link.classList.toggle('active', link.dataset.navHref === current);
+
+      link.addEventListener('mouseenter', () => {
+        if (!link.classList.contains('active')) return;
+        const labelEl = link.querySelector('.nav-label');
+        if (labelEl) labelEl.textContent = 'VOLVER';
+        link.href = '/';
+      }, { signal });
+
+      link.addEventListener('mouseleave', () => {
+        const labelEl = link.querySelector('.nav-label');
+        if (labelEl) labelEl.textContent = link.dataset.label ?? '';
+        link.href = link.dataset.navHref ?? '/';
+      }, { signal });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initNav);
+</script>

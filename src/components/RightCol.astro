@@ -1,0 +1,102 @@
+---
+import NavModule from './NavModule.astro';
+import ShowsSeekModule from './ShowsSeekModule.astro';
+import SeekModule from './SeekModule.astro';
+import MusicSeekModule from './MusicSeekModule.astro';
+import InfoModule from './InfoModule.astro';
+import Divider from './Divider.astro';
+
+interface Props {
+  section?: 'home' | 'musica' | 'ropa' | 'shows';
+}
+
+const { section = 'home' } = Astro.props;
+---
+
+<div class="right-col">
+  <div transition:persist transition:name="nav-module" class="nav-persist-wrapper" style="display: contents">
+    <NavModule />
+  </div>
+  {section === 'shows' && (
+    <>
+      <div class="divider-bar divider-seek"></div>
+      <ShowsSeekModule />
+    </>
+  )}
+  {section === 'ropa' && (
+    <>
+      <div class="divider-bar divider-seek"></div>
+      <SeekModule />
+    </>
+  )}
+  {section === 'musica' && (
+    <>
+      <div class="divider-bar divider-seek"></div>
+      <MusicSeekModule />
+    </>
+  )}
+  <Divider />
+  <div transition:persist transition:name="info-module" class="info-persist-wrapper" style="display: contents">
+    <InfoModule />
+  </div>
+</div>
+
+<script>
+  import { gsap } from 'gsap';
+
+  let savedNavHeight: number | null = null;
+
+  document.addEventListener('astro:before-swap', () => {
+    const nav = document.querySelector<HTMLElement>('.module-nav');
+    if (nav) savedNavHeight = nav.offsetHeight;
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    const nav = document.querySelector<HTMLElement>('.module-nav');
+    if (!nav || savedNavHeight === null) { savedNavHeight = null; return; }
+
+    const fromHeight = savedNavHeight;
+    const toHeight = nav.offsetHeight;
+    savedNavHeight = null;
+
+    if (fromHeight === toHeight) return;
+
+    if (fromHeight < toHeight) {
+      // Expanding: clip bottom, animate downward reveal
+      const diff = toHeight - fromHeight;
+      gsap.fromTo(nav,
+        { clipPath: `inset(0 0 ${diff}px 0)` },
+        { clipPath: 'inset(0 0 0px 0)', duration: 0.45, ease: 'power2.out', clearProps: 'clipPath' }
+      );
+    } else {
+      // Contracting: overlay covers full old nav height, clip reveals only the strip
+      // below the new nav bottom, then bottom inset animates upward to erase it
+      const diff = fromHeight - toHeight;
+      const rightCol = nav.closest<HTMLElement>('.right-col');
+      if (rightCol) {
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: ${fromHeight}px;
+          background: var(--accent);
+          z-index: 5;
+          pointer-events: none;
+          clip-path: inset(${toHeight}px 0 0 0);
+        `;
+        rightCol.appendChild(overlay);
+        gsap.to(overlay, {
+          clipPath: `inset(${toHeight}px 0 ${diff}px 0)`,
+          duration: 0.45,
+          ease: 'power2.out',
+          onComplete: () => overlay.remove(),
+        });
+      }
+    }
+
+    gsap.fromTo(nav,
+      { filter: 'brightness(1.8)' },
+      { filter: 'brightness(1)', duration: 0.35, ease: 'steps(4)', clearProps: 'filter' }
+    );
+  });
+</script>

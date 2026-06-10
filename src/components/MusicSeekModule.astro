@@ -1,0 +1,92 @@
+---
+import { getCollection } from 'astro:content';
+
+const items = await getCollection('musica');
+const artists = [...new Set(items.map(i => i.data.artist).filter(Boolean))] as string[];
+---
+
+<div class="module module-seek scanlines">
+  <span class="label-text">Buscar</span>
+  <div class="seek-search">
+    <input
+      type="text"
+      id="seek-input"
+      class="seek-input"
+      placeholder="TITULO..."
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <span class="seek-cursor">_</span>
+  </div>
+  <div class="seek-categories">
+    <button class="seek-cat active" data-artist="all">TODOS</button>
+    {artists.map(artist => (
+      <button class="seek-cat" data-artist={artist.toLowerCase()}>{artist.toUpperCase()}</button>
+    ))}
+  </div>
+  <div id="seek-count" class="seek-count"></div>
+  <div class="massive-text" style="bottom: -10px; right: -5px; font-size: 94px;">MUSICA</div>
+</div>
+
+<script>
+  function initMusicSeek() {
+    const input = document.getElementById('seek-input') as HTMLInputElement | null;
+    const artistBtns = document.querySelectorAll<HTMLButtonElement>('.seek-cat[data-artist]');
+    const countEl = document.getElementById('seek-count');
+
+    if (!input) return;
+
+    let activeArtist = 'all';
+
+    function getReleases() {
+      return document.querySelectorAll<HTMLElement>('.release-item');
+    }
+
+    function filterReleases() {
+      const query = input!.value.toLowerCase().trim();
+      const releases = getReleases();
+      let visible = 0;
+
+      releases.forEach(card => {
+        const title = (card.dataset.title ?? '').toLowerCase();
+        const artist = card.dataset.artist ?? '';
+
+        const matchesSearch = query === '' || title.includes(query);
+        const matchesArtist = activeArtist === 'all' || artist === activeArtist;
+
+        if (matchesSearch && matchesArtist) {
+          card.style.display = '';
+          visible++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (countEl) {
+        const total = releases.length;
+        countEl.textContent = visible < total ? `${visible}/${total}` : '';
+      }
+    }
+
+    input.addEventListener('input', filterReleases);
+
+    artistBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        artistBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeArtist = btn.dataset.artist ?? 'all';
+        filterReleases();
+      });
+    });
+
+    document.addEventListener('astro:page-load', () => {
+      if (input) input.value = '';
+      activeArtist = 'all';
+      artistBtns.forEach(b => b.classList.toggle('active', b.dataset.artist === 'all'));
+      filterReleases();
+    });
+  }
+
+  document.addEventListener('astro:page-load', initMusicSeek);
+  initMusicSeek();
+</script>

@@ -1,0 +1,35 @@
+---
+interface Props {
+  title: string;
+  artist?: string;
+  releaseType?: string;
+  year?: number;
+  trackCount?: number;
+  image: string;
+  soundcloudUrl?: string;
+  youtubeUrl?: string;
+  spotifyUrl?: string;
+  tidalUrl?: string;
+}
+const { title, artist, releaseType, year, trackCount, image, soundcloudUrl, youtubeUrl, spotifyUrl, tidalUrl } = Astro.props;
+---
+<div class="release-item" data-title={title.toLowerCase()} data-artist={(artist ?? '').toLowerCase()}>
+  <div class="release-art-wrapper">
+    <img src={image} class="release-art" alt={`${title} Album Art`}>
+  </div>
+  <div class="release-details">
+    <span class="release-title">{title}</span>
+    {artist && <span class="release-artist">{artist}</span>}
+    <div class="release-meta">
+      {releaseType && <span class="meta-tag">{releaseType.toUpperCase()}</span>}
+      {year && <span class="meta-tag">{year}</span>}
+      {trackCount && <span class="meta-tag">{trackCount} TEMAS</span>}
+    </div>
+    <div class="player-links">
+      {soundcloudUrl && <a href={soundcloudUrl} target="_blank" rel="noopener" class="music-link soundcloud-link">SOUNDCLOUD</a>}
+      {youtubeUrl && <a href={youtubeUrl} target="_blank" rel="noopener" class="music-link youtube-link">YOUTUBE</a>}
+      {spotifyUrl && <a href={spotifyUrl} target="_blank" rel="noopener" class="music-link spotify-link">SPOTIFY</a>}
+      {tidalUrl && <a href={tidalUrl} target="_blank" rel="noopener" class="music-link tidal-link">TIDAL</a>}
+    </div>
+  </div>
+</div>

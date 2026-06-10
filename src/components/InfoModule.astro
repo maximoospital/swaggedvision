@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+
+const items = await getCollection('novedades');
+const sorted = items.sort((a, b) => (a.data.title > b.data.title ? 1 : -1));
+---
+
+<div class="module module-info">
+  <span class="label-text">NOVEDADES</span>
+  <ul class="info-list">
+    {sorted.map(item => (
+      <>
+        <li class="info-title">{item.data.title}</li>
+        {item.data.subtitle && <li class="info-subtitle">{item.data.subtitle}</li>}
+      </>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .info-subtitle {
+    color: var(--text-watermark);
+    margin-bottom: 0.5rem;
+  }
+</style>

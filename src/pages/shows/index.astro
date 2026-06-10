@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/baseLayout.astro';
+import ShowItem from '../../components/ShowItem.astro';
+import { getCollection } from 'astro:content';
+
+const allShows = await getCollection('shows');
+const shows = allShows.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'SWVS',
+  itemListElement: shows.map((show, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'MusicEvent',
+      name: show.data.title,
+      startDate: show.data.date.toISOString().split('T')[0],
+      location: {
+        '@type': 'MusicVenue',
+        name: show.data.venue,
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: show.data.city,
+          addressCountry: show.data.country,
+        },
+      },
+      performer: { '@type': 'MusicGroup', name: 'SWAGGEDVISION' },
+      ...(show.data.ticketUrl && {
+        offers: { '@type': 'Offer', url: show.data.ticketUrl },
+      }),
+    },
+  })),
+};
+---
+<BaseLayout
+  title="Shows"
+  description="Fechas SWVS. Consegui tus entradas."
+  {schema}
+  section="shows"
+>
+  <div class="content-panel panel-shows" transition:name="panel">
+    <div class="panel-header">
+      <span class="panel-id">SWVS_FECHITAS</span>
+      <h2>SHOWS Y FECHAS</h2>
+    </div>
+    <div class="shows-container">
+      {shows.map(show => <ShowItem {...show.data} />)}
+    </div>
+  </div>
+</BaseLayout>

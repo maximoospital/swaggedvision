@@ -1,0 +1,13 @@
+export const SITE = {
+  url: 'https://swaggedvision.com.ar', // update when domain is en vivo
+  name: 'SWAGGEDVISION',
+  shortName: 'SWVS',
+  description: 'SWAGGEDVISION — Musica. Fechas. Ropa.',
+  logo: '/swvs.png',
+  themeColor: '#cf2f2f',
+  socials: {
+    soundcloud: 'https://soundcloud.com/swaggedvision',
+    youtube: 'https://www.youtube.com/@swaggedvision',
+    instagram: 'https://www.instagram.com/swaggedvision',
+  },
+};

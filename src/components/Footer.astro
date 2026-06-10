@@ -1,0 +1,49 @@
+---
+const { sitename } = Astro.props;
+const year = new Date().getFullYear();
+const name = "© " + year + " " + sitename;
+
+import rawTaglines from '../content/taglines.md?raw';
+const taglines = rawTaglines.split('\n').filter(l => l.trim().startsWith('-')).map(l => l.replace(/^-\s*/, '').trim());
+---
+
+<!-- Footer Content -->
+<footer class="footer-content marquee-wrapper" data-name={name} data-taglines={JSON.stringify(taglines)} transition:persist>
+    <div class="marquee-content"></div>
+    <div class="marquee-content"></div>
+</footer>
+
+<script>
+    const footer = document.querySelector('footer.footer-content');
+    if (footer) {
+        const taglines = JSON.parse(footer.dataset.taglines);
+        const name = footer.dataset.name;
+        const tagline = taglines[Math.floor(Math.random() * taglines.length)];
+        const chunk = `${name} | ${tagline} | `.repeat(8) + ' ';
+        const contents = footer.querySelectorAll('.marquee-content');
+        contents.forEach(el => el.textContent = chunk);
+
+        let offset = 0;
+        let prev = null;
+        let paused = false;
+        const SPEED = 50; // px/s
+
+        footer.addEventListener('mouseenter', () => paused = true);
+        footer.addEventListener('mouseleave', () => paused = false);
+
+        function tick(ts) {
+            if (prev !== null && !paused) {
+                const w = contents[0].scrollWidth;
+                if (w > 0) {
+                    const delta = Math.min(ts - prev, 50);
+                    offset -= delta * SPEED / 1000;
+                    if (offset <= -w) offset += w;
+                    contents.forEach(el => el.style.transform = `translateX(${offset}px)`);
+                }
+            }
+            prev = ts;
+            requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+    }
+</script>

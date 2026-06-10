@@ -1,0 +1,93 @@
+---
+import { getCollection } from 'astro:content';
+
+const items = await getCollection('ropa');
+const categories = [...new Set(items.map(i => i.data.category).filter(Boolean))] as string[];
+---
+
+<div class="module module-seek scanlines">
+  <span class="label-text">Buscar</span>
+  <div class="seek-search">
+    <input
+      type="text"
+      id="seek-input"
+      class="seek-input"
+      placeholder="NOMBRE..."
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <span class="seek-cursor">_</span>
+  </div>
+  <div class="seek-categories">
+    <button class="seek-cat active" data-cat="all">TODOS</button>
+    {categories.map(cat => (
+      <button class="seek-cat" data-cat={cat}>{cat.toUpperCase()}</button>
+    ))}
+  </div>
+  <div id="seek-count" class="seek-count"></div>
+  <div class="massive-text" style="bottom: -10px; right: -5px; font-size: 136px;">ROPA</div>
+</div>
+
+<script>
+  function initSeek() {
+    const input = document.getElementById('seek-input') as HTMLInputElement | null;
+    const catBtns = document.querySelectorAll<HTMLButtonElement>('.seek-cat');
+    const countEl = document.getElementById('seek-count');
+
+    if (!input) return;
+
+    let activeCategory = 'all';
+
+    function getCards() {
+      return document.querySelectorAll<HTMLElement>('.clothing-card');
+    }
+
+    function filterCards() {
+      const query = input!.value.toLowerCase().trim();
+      const cards = getCards();
+      let visible = 0;
+
+      cards.forEach(card => {
+        const name = (card.dataset.name ?? '').toLowerCase();
+        const cat = card.dataset.category ?? '';
+
+        const matchesSearch = query === '' || name.includes(query);
+        const matchesCat = activeCategory === 'all' || cat === activeCategory;
+
+        if (matchesSearch && matchesCat) {
+          card.style.display = '';
+          visible++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (countEl) {
+        const total = cards.length;
+        countEl.textContent = visible < total ? `${visible}/${total}` : '';
+      }
+    }
+
+    input.addEventListener('input', filterCards);
+
+    catBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        catBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCategory = btn.dataset.cat ?? 'all';
+        filterCards();
+      });
+    });
+
+    // Re-init on page navigation (Astro view transitions)
+    document.addEventListener('astro:page-load', () => {
+      if (input) input.value = '';
+      activeCategory = 'all';
+      catBtns.forEach(b => b.classList.toggle('active', b.dataset.cat === 'all'));
+      filterCards();
+    });
+  }
+
+  document.addEventListener('astro:page-load', initSeek);
+  initSeek();
+</script>

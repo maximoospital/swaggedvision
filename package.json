@@ -1,0 +1,27 @@
+{
+  "name": "swaggedvision",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/alpinejs": "^0.5.0",
+    "@astrojs/sitemap": "^3.7.3",
+    "@playform/compress": "^0.2.3",
+    "@types/alpinejs": "^3.13.11",
+    "alpinejs": "^3.15.12",
+    "astro": "^6.4.4",
+    "astro-lightgallery": "^2.6.0",
+    "astro-pagefind": "^2.0.0",
+    "astro-seo": "^1.1.0",
+    "astro-swiper": "^2.7.0",
+    "gsap": "^3.15.0"
+  }
+}

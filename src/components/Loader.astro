@@ -1,0 +1,43 @@
+<div
+  transition:persist
+  x-data="{
+    visible: !sessionStorage.getItem('swvs_loader_shown'),
+    progress: 0,
+    init() {
+      if (!this.visible) return;
+
+      const advance = () => {
+        if (this.progress < 88) {
+          this.progress = Math.min(88, this.progress + Math.random() * 20 + 6);
+          setTimeout(() => advance(), 60 + Math.random() * 140);
+        }
+      };
+      advance();
+
+      const done = () => {
+        sessionStorage.setItem('swvs_loader_shown', '1');
+        document.documentElement.setAttribute('data-loader-shown', '');
+        this.progress = 100;
+        setTimeout(() => { this.visible = false; }, 420);
+      };
+
+      if (document.readyState === 'complete') {
+        done();
+      } else {
+        window.addEventListener('load', done, { once: true });
+      }
+    }
+  }"
+  x-show="visible"
+  x-transition:leave.duration.420ms
+  class="intro-overlay"
+>
+  <div class="intro-content">
+    <div class="intro-logo">
+      <img src="/swvs.png" alt="SWVS" class="swvs-logo" style="width:100px; margin-bottom: 15px;" />
+    </div>
+    <div class="loading-bar">
+      <div class="progress" :style="{ width: progress + '%' }"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,92 @@
+---
+import { getCollection } from 'astro:content';
+
+const items = await getCollection('shows');
+const venues = [...new Set(items.map(i => i.data.venue).filter(Boolean))] as string[];
+---
+
+<div class="module module-seek scanlines">
+  <span class="label-text">Buscar</span>
+  <div class="seek-search">
+    <input
+      type="text"
+      id="shows-seek-input"
+      class="seek-input"
+      placeholder="TITULO..."
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <span class="seek-cursor">_</span>
+  </div>
+  <div class="seek-categories">
+    <button class="seek-cat active" data-venue="all">TODOS</button>
+    {venues.map(venue => (
+      <button class="seek-cat" data-venue={venue.toLowerCase()}>{venue.toUpperCase()}</button>
+    ))}
+  </div>
+  <div id="shows-seek-count" class="seek-count"></div>
+  <div class="massive-text" style="bottom: -10px; right: -5px; font-size: 100px;">SHOWS</div>
+</div>
+
+<script>
+  function initShowsSeek() {
+    const input = document.getElementById('shows-seek-input') as HTMLInputElement | null;
+    const venueBtns = document.querySelectorAll<HTMLButtonElement>('.seek-cat[data-venue]');
+    const countEl = document.getElementById('shows-seek-count');
+
+    if (!input) return;
+
+    let activeVenue = 'all';
+
+    function getShows() {
+      return document.querySelectorAll<HTMLElement>('.show-item');
+    }
+
+    function filterShows() {
+      const query = input!.value.toLowerCase().trim();
+      const shows = getShows();
+      let visible = 0;
+
+      shows.forEach(item => {
+        const title = (item.dataset.title ?? '').toLowerCase();
+        const venue = item.dataset.venue ?? '';
+
+        const matchesSearch = query === '' || title.includes(query);
+        const matchesVenue = activeVenue === 'all' || venue === activeVenue;
+
+        if (matchesSearch && matchesVenue) {
+          item.style.display = '';
+          visible++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      if (countEl) {
+        const total = shows.length;
+        countEl.textContent = visible < total ? `${visible}/${total}` : '';
+      }
+    }
+
+    input.addEventListener('input', filterShows);
+
+    venueBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        venueBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeVenue = btn.dataset.venue ?? 'all';
+        filterShows();
+      });
+    });
+
+    document.addEventListener('astro:page-load', () => {
+      if (input) input.value = '';
+      activeVenue = 'all';
+      venueBtns.forEach(b => b.classList.toggle('active', b.dataset.venue === 'all'));
+      filterShows();
+    });
+  }
+
+  document.addEventListener('astro:page-load', initShowsSeek);
+  initShowsSeek();
+</script>

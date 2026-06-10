@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../../layouts/baseLayout.astro';
+import ShopItem from '../../components/ShopItem.astro';
+import { getCollection } from 'astro:content';
+
+const items = await getCollection('ropa');
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'SWVS.',
+  itemListElement: items.map((item, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'Product',
+      name: item.data.name,
+      offers: {
+        '@type': 'Offer',
+        price: item.data.price.toFixed(2),
+        priceCurrency: 'ARS',
+        availability: 'https://schema.org/InStock',
+        url: item.data.url,
+      },
+    },
+  })),
+};
+---
+<BaseLayout
+  title="Ropa"
+  description="Ropa SWVS. Conseguila Ya."
+  {schema}
+  section="ropa"
+>
+  <div class="content-panel panel-ropa" transition:name="panel">
+    <div class="panel-header">
+      <span class="panel-id">SWVS_FACHA</span>
+      <h2>ROPA SWVS</h2>
+    </div>
+    <div class="clothing-grid">
+      {items.map(item => (
+        <ShopItem
+          name={item.data.name}
+          price={item.data.price}
+          images={item.data.images}
+          url={item.data.url}
+          category={item.data.category}
+          status={item.data.status}
+        />
+      ))}
+    </div>
+  </div>
+</BaseLayout>
