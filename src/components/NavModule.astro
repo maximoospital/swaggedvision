@@ -57,18 +57,20 @@ const navLinks = [
 <script>
   let navController: AbortController | null = null;
 
+  const norm = (p: string) => p.replace(/\/$/, '') || '/';
+
   function initNav() {
     if (navController) navController.abort();
     navController = new AbortController();
     const { signal } = navController;
 
-    const current = window.location.pathname;
+    const current = norm(window.location.pathname);
 
     document.querySelectorAll<HTMLAnchorElement>('[data-nav-href]').forEach((link) => {
       const labelEl = link.querySelector('.nav-label');
       if (labelEl) labelEl.textContent = link.dataset.label ?? '';
       link.href = link.dataset.navHref ?? '/';
-      link.classList.toggle('active', link.dataset.navHref === current);
+      link.classList.toggle('active', norm(link.dataset.navHref ?? '') === current);
 
       link.addEventListener('mouseenter', () => {
         if (!link.classList.contains('active')) return;
