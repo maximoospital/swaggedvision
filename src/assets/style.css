@@ -972,6 +972,15 @@ details.show-item[open] .show-expand-icon::after {
     padding-right: 5px;
 }
 
+.music-releases .proximamente {
+    color: var(--ui-accent);
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+    padding: 20px 0;
+}
+
 .release-item {
     background: #111;
     border: 1px solid var(--ui-border);

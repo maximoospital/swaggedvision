@@ -47,7 +47,10 @@ const schema = releases.length === 1
       <h2>MUSICA SWVS</h2>
     </div>
     <div class="music-releases">
-      {releases.map(release => <MusicItem id={release.id} {...release.data} />)}
+      {releases.length === 0
+        ? <p class="proximamente">Proximamente... faa...</p>
+        : releases.map(release => <MusicItem id={release.id} {...release.data} />)
+      }
     </div>
   </div>
 </BaseLayout>
