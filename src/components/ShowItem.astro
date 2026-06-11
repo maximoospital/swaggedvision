@@ -131,10 +131,16 @@ const recapModalId = `show-recap-${Math.random().toString(36).slice(2, 9)}`;
 <script>
   import { getLightGalleryFromUniqueSelector } from 'astro-lightgallery';
 
-  // Teleport all recap modals to <body> so no ancestor stacking context traps them
-  document.querySelectorAll<HTMLElement>('.show-recap-modal').forEach(modal => {
-    document.body.appendChild(modal);
-  });
+  function teleportModals() {
+    document.querySelectorAll<HTMLElement>('.show-recap-modal').forEach(modal => {
+      if (modal.parentElement !== document.body) {
+        document.body.appendChild(modal);
+      }
+    });
+  }
+
+  teleportModals();
+  document.addEventListener('astro:page-load', teleportModals);
 
   function openRecapModal(modalId: string) {
     const modal = document.getElementById(modalId);
