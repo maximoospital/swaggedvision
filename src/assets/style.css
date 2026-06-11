@@ -866,6 +866,12 @@ details.show-item[open] .show-expand-icon::after {
     display: block;
 }
 
+.show-grid-item:hover img {
+    filter: brightness(110%);
+    transform: scale(1.05);
+    transition: all 0.2s ease;
+}
+
 /* ROPA PANEL */
 .panel-ropa {
     padding: 0;
