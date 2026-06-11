@@ -61,27 +61,34 @@ const orgSchema = {
           return document.querySelector<HTMLElement>('.progress-bar-top');
         }
 
+        function getLoader() {
+          return document.querySelector<HTMLElement>('.left-col-loader');
+        }
+
         function start() {
           const bar = getBar();
-          if (!bar) return;
-          if (timer) clearTimeout(timer);
-          bar.classList.remove('nav-done');
-          bar.style.width = '0%';
-          // force reflow so transition fires from 0
-          bar.offsetWidth;
-          bar.classList.add('nav-loading');
-          bar.style.width = '65%';
+          if (bar) {
+            if (timer) clearTimeout(timer);
+            bar.classList.remove('nav-done');
+            bar.style.width = '0%';
+            bar.offsetWidth;
+            bar.classList.add('nav-loading');
+            bar.style.width = '65%';
+          }
+          getLoader()?.classList.add('is-loading');
         }
 
         function finish() {
           const bar = getBar();
-          if (!bar) return;
-          bar.classList.add('nav-done');
-          bar.style.width = '100%';
-          timer = setTimeout(() => {
-            bar.classList.remove('nav-loading', 'nav-done');
-            bar.style.width = '0%';
-          }, 600);
+          if (bar) {
+            bar.classList.add('nav-done');
+            bar.style.width = '100%';
+            timer = setTimeout(() => {
+              bar.classList.remove('nav-loading', 'nav-done');
+              bar.style.width = '0%';
+            }, 600);
+          }
+          getLoader()?.classList.remove('is-loading');
         }
 
         document.addEventListener('astro:before-preparation', start);
@@ -95,6 +102,7 @@ const orgSchema = {
 
           <!-- LEFT COLUMN -->
           <div class="left-col">
+            <div class="left-col-loader" aria-hidden="true"></div>
             <slot />
           </div>
 

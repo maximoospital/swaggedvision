@@ -86,7 +86,7 @@ const recapModalId = `show-recap-${Math.random().toString(36).slice(2, 9)}`;
             <>
               <LightGallery id={flyerGalleryId} class="show-gallery-hidden">
                 <a href={flyer}>
-                  <img src={flyer} alt={`${title} flyer`} loading="lazy" />
+                  <img src={flyer} alt={`Flyer de ${title}`} loading="lazy" />
                 </a>
               </LightGallery>
               <div class="grid-item show-flyer-btn" data-flyer-gallery-id={flyerGalleryId}>VER FLYER</div>
@@ -111,14 +111,14 @@ const recapModalId = `show-recap-${Math.random().toString(36).slice(2, 9)}`;
           <LightGallery id={galleryId} class="show-gallery-hidden">
             {images.map((img, i) => (
               <a href={img}>
-                <img src={img} alt={`${title} ${i + 1}`} loading="lazy" />
+                <img src={img} alt={`${title} - Foto ${i + 1}`} loading="lazy" />
               </a>
             ))}
           </LightGallery>
           <div class="show-photo-grid">
             {images.map((img, i) => (
               <div class="grid-item show-grid-item" data-gallery-id={galleryId} data-index={i}>
-                <img src={img} alt={`${title} ${i + 1}`} loading="lazy" />
+                <img src={img} alt={`${title} - Foto ${i + 1}`} loading="lazy" />
               </div>
             ))}
           </div>
